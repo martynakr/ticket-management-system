@@ -1,0 +1,24 @@
+# Local development services. Start with `docker compose up -d`.
+services:
+  mongo:
+    # Official MongoDB image from Docker Hub, pinned to the 8.0 release line.
+    image: mongo:8.0
+    container_name: ticket-mongo
+    restart: unless-stopped
+    ports:
+      # host:container. MongoDB listens on 27017 inside the container.
+      # On your Mac it's reachable on 27018, because a Homebrew MongoDB
+      # already uses 27017. Bound to 127.0.0.1 so only this machine can connect.
+      - "127.0.0.1:27018:27017"
+    volumes:
+      # Store the data in a named volume so it survives container restarts
+      # and removal. `docker compose down -v` deletes it.
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo-data:

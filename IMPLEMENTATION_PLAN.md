@@ -11,7 +11,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 
 ## Phase 0: Project Setup
 
-**Done when:** `npm run dev` starts the client and the server. The client can call the API through the Vite proxy, and the server connects to MongoDB.
+**Done when:** `npm run dev` starts the client (in `client/`) and the server (in `server/`). The client can call the API through the Vite proxy, and the server connects to MongoDB.
 
 - [x] `git init`, add `.gitignore` (node_modules, `.env`, build output)
 - [x] Create the folder structure: `client/` and `server/`
@@ -23,33 +23,32 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [ ] Add `.env.example` with `MONGODB_URI`, `JWT_SECRET`, `CLIENT_ORIGIN`, `NODE_ENV`, `PORT`, `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`
 - [ ] Validate required env variables on server start (fail fast if any are missing)
 - [x] Add a `GET /api/health` endpoint
-- [ ] Configure the Vite proxy: `/api` → `http://localhost:3000`
-- [ ] Add a root script that runs the client and server together
-- [ ] Set up Vitest in both packages, plus Supertest and mongodb-memory-server in `server/`, with one passing test in each package
+- [x] Configure the Vite proxy: `/api` → `http://localhost:3000`
+- [x] Set up Vitest in both packages, plus Supertest and mongodb-memory-server in `server/`, with one passing test in each package
 
 ## Phase 1: Authentication Backend
 
 **Done when:** You can log in as the seeded admin, create an agent, log in as that agent, and log out, all through API calls. Old tokens are rejected after logout.
 
 ### User model and seeding
-- [ ] Create the `User` model (`name`, `email`, `passwordHash`, `role`, `tokenVersion`, `createdBy`, timestamps)
-- [ ] Add a unique index on `email`; store emails lowercase and trimmed
-- [ ] Exclude `passwordHash` from queries by default
-- [ ] Add password hashing and comparison helpers (bcrypt)
-- [ ] Write the admin seed script (`npm run seed:admin`). It reads the credentials from env and does nothing if that admin already exists.
+- [x] Create the `User` model (`name`, `email`, `passwordHash`, `role`, `tokenVersion`, `createdBy`, timestamps)
+- [x] Add a unique index on `email`; store emails lowercase and trimmed
+- [x] Exclude `passwordHash` from queries by default
+- [x] Add password hashing and comparison helpers (bcrypt)
+- [x] Write the admin seed script (`seedAdmin()`, run as part of `npm run seed`). It reads the credentials from env and does nothing if that admin already exists.
 
 ### Security middleware
 - [ ] Add `cookie-parser` and the JSON body parser
 - [ ] Add middleware that rejects `POST`/`PUT`/`PATCH`/`DELETE` requests whose `Content-Type` isn't `application/json`
 - [ ] Add middleware that rejects state-changing requests whose `Origin` isn't `CLIENT_ORIGIN`
-- [ ] Add a central error handler that returns consistent JSON errors and hides stack traces in production
+- [x] Add a central error handler that returns consistent JSON errors and hides stack traces in production
 
 ### Auth
-- [ ] JWT helpers: sign `{ userId, tokenVersion }` with a 1-day expiry, and verify
-- [ ] Cookie helper: `httpOnly`, `sameSite=strict`, `secure` when `NODE_ENV=production`
+- [x] JWT helpers: sign `{ userId, tokenVersion }` with a 1-day expiry, and verify
+- [x] Cookie helper: `httpOnly`, `sameSite=strict`, `secure` when `NODE_ENV=production`
 - [ ] `requireAuth` middleware: verify the JWT, load the user, compare `tokenVersion`, attach `req.user`
 - [ ] `requireAdmin` middleware: check `req.user.role === "admin"`
-- [ ] `POST /api/auth/login`: validate the input and set the cookie. Return the same error whether the email or the password is wrong.
+- [x] `POST /api/auth/login`: validate the input and set the cookie. Return the same error whether the email or the password is wrong.
 - [ ] `POST /api/auth/logout`: increment `tokenVersion` and clear the cookie
 - [ ] `GET /api/auth/me`: return the current user
 
@@ -58,7 +57,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [ ] `GET /api/users` (admin): list users without password hashes
 
 ### Tests
-- [ ] Login: success, wrong password, unknown email
+- [x] Login: success, wrong password, unknown email
 - [ ] `requireAuth`: missing token, invalid token, token with an outdated `tokenVersion`
 - [ ] Logout invalidates the old token
 - [ ] An agent can't reach admin routes

@@ -26,6 +26,7 @@ Building a ticket management system that uses AI to automatically classify, resp
 - **Backend:** Node.js + Express + TypeScript
 - **Database:** MongoDB
 - **Auth:** JWT
+- **Validation:** Zod
 - **Testing:** Vitest, Supertest, mongodb-memory-server
 
 ## Ticket Source (MVP)

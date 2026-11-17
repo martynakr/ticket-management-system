@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
@@ -16,5 +17,13 @@ export default defineConfig({
       // CORS isn't needed. The path is kept as-is because Express routes start with /api.
       '/api': 'http://localhost:3000',
     },
+  },
+  test: {
+    // jsdom simulates a browser (document, window) so React components can render in Node.
+    environment: 'jsdom',
+    // Make describe, it, expect, etc. available without importing them.
+    // This also lets Testing Library clean up rendered components after each test automatically.
+    globals: true,
+    setupFiles: ['./src/test/setup.ts'],
   },
 })

@@ -1,0 +1,6 @@
+{
+  // Used by `npm run build`: same settings, but leaves tests out of dist/.
+  // `npm run typecheck` uses tsconfig.json, which still checks the tests.
+  "extends": "./tsconfig.json",
+  "exclude": ["src/**/*.test.ts", "src/test"]
+}

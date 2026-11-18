@@ -47,32 +47,32 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [x] JWT helpers: sign `{ userId, tokenVersion }` with a 1-day expiry, and verify
 - [x] Cookie helper: `httpOnly`, `sameSite=strict`, `secure` when `NODE_ENV=production`
 - [x] `requireAuth` middleware: verify the JWT, load the user, compare `tokenVersion`, attach `req.user`
-- [ ] `requireAdmin` middleware: check `req.user.role === "admin"`
+- [x] `requireAdmin` middleware: check `req.user.role === "admin"`
 - [x] `POST /api/auth/login`: validate the input and set the cookie. Return the same error whether the email or the password is wrong.
-- [ ] `POST /api/auth/logout`: increment `tokenVersion` and clear the cookie
-- [ ] `GET /api/auth/me`: return the current user
+- [x] `POST /api/auth/logout`: increment `tokenVersion` and clear the cookie
+- [x] `GET /api/auth/me`: return the current user
 
 ### User management
-- [ ] `POST /api/users` (admin): validate the input (name, email, password of at least 8 characters), always set `role: "agent"`, set `createdBy`, return 409 on a duplicate email
+- [x] `POST /api/users` (admin): validate the input (name, email, password of at least 8 characters), always set `role: "agent"`, set `createdBy`, return 409 on a duplicate email
 - [ ] `GET /api/users` (admin): list users without password hashes
 
 ### Tests
 - [x] Login: success, wrong password, unknown email
 - [x] `requireAuth`: missing token, invalid token, token with an outdated `tokenVersion`
-- [ ] Logout invalidates the old token
-- [ ] An agent can't reach admin routes
-- [ ] Create agent: success, duplicate email, invalid input
+- [x] Logout invalidates the old token
+- [x] An agent can't reach admin routes
+- [x] Create agent: success, duplicate email, invalid input
 - [ ] Requests with the wrong `Origin` or a non-JSON body are rejected
 
 ## Phase 2: Authentication Frontend
 
 **Done when:** You can log in and out in the browser. The admin can create agents from the UI, and agents can't see admin pages.
 
-- [ ] API client wrapper: fetch with `credentials: "include"`, JSON headers, consistent error handling
-- [ ] Shared types for `User` and API errors
-- [ ] Auth context: call `/api/auth/me` on load, expose `user`, `login`, `logout`, and a loading state
-- [ ] Set up routing (React Router)
-- [ ] Login page: form, validation, error message, redirect after login
+- [x] API client wrapper: fetch with `credentials: "include"`, JSON headers, consistent error handling
+- [x] Shared types for `User` and API errors
+- [x] Auth context: call `/api/auth/me` on load, expose `user`, `login`, `logout`, and a loading state
+- [x] Set up routing (React Router)
+- [x] Login page: form, validation, error message, redirect after login
 - [ ] `ProtectedRoute`: redirect to the login page if not authenticated
 - [ ] `AdminRoute`: block agents from admin pages
 - [ ] App layout: nav bar showing the user's name and role, a logout button, and an admin-only "Users" link

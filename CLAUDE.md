@@ -38,8 +38,16 @@ Only test endpoints (through Supertest), not models or helpers directly. Tests u
 ## Server conventions
 
 - **Layers:** `routes/` → `controllers/` (HTTP only) → `services/` (business rules) → `repositories/` (the only code that queries Mongoose models).
-- **Validate input with Zod:** define schemas in `src/schemas/`, call `validate(schema, req.body)` from `src/validation/validate.ts` in the controller. Invalid input becomes a 400 with `{ error, fields }`.
+- **Validate input with Zod:** define schemas in `src/schemas/`, add `validateBody(schema)` from `src/validation/validate.ts` to the route, and type the controller's request as `ValidatedRequest<Input>`. Invalid input becomes a 400 with `{ error, fields }`.
 - **Errors:** throw `HttpError(status, message)` from any layer; `middleware/error-handler.ts` turns it into JSON.
+
+## Client conventions
+
+- **Reusable UI** lives in `src/components/ui/` (`Input`, `Button`, `Alert`). Build new forms from these instead of styling raw elements.
+- **Forms:** React Hook Form + a Zod schema via `zodResolver`, with `noValidate` on the `<form>`. On a 400, call `applyFieldErrors(setError, error.fields)` from `src/lib/form.ts`; show other errors with `setError('root', …)` in an `Alert`.
+- **API calls** go through `api.get/post` in `src/lib/api.ts`, which throws `ApiError` (`status`, `message`, `fields`).
+- **Auth state** comes from `useAuth()` (`src/auth/AuthContext.tsx`).
+- **Tests** that hit the API stub `fetch` with `mockFetch` from `src/test/fetch.ts`.
 
 ## Gotchas
 

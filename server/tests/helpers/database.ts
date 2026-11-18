@@ -1,5 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { connectToDatabase, disconnectFromDatabase } from '../db.js'
+import { connectToDatabase, disconnectFromDatabase } from '../../src/db.js'
 
 // Test helper: runs a throwaway MongoDB in memory, so tests never touch
 // the Docker database and each test file starts from an empty database.

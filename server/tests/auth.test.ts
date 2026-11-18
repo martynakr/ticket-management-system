@@ -1,8 +1,8 @@
 import request from 'supertest'
-import app from '../app.js'
-import { hashPassword } from '../auth/password.js'
-import { UserModel } from '../models/user.js'
-import { startTestDatabase, stopTestDatabase } from '../test/database.js'
+import app from '../src/app.js'
+import { hashPassword } from '../src/auth/password.js'
+import { UserModel } from '../src/models/user.js'
+import { startTestDatabase, stopTestDatabase } from './helpers/database.js'
 
 describe('POST /api/auth/login', () => {
   const email = 'admin@example.com'

@@ -1,6 +1,11 @@
 {
-  // Used by `npm run build`: same settings, but leaves tests out of dist/.
-  // `npm run typecheck` uses tsconfig.json, which still checks the tests.
+  // Used by `npm run build`: same settings, but only compiles src/, so tests
+  // never end up in dist/. `npm run typecheck` uses tsconfig.json, which also
+  // checks tests/.
   "extends": "./tsconfig.json",
-  "exclude": ["src/**/*.test.ts", "src/test"]
+  "compilerOptions": {
+    // src/index.ts compiles to dist/index.js (not dist/src/index.js).
+    "rootDir": "src"
+  },
+  "include": ["src"]
 }

@@ -1,6 +1,6 @@
 import request from 'supertest'
-import app from '../app.js'
-import { startTestDatabase, stopTestDatabase } from '../test/database.js'
+import app from '../src/app.js'
+import { startTestDatabase, stopTestDatabase } from './helpers/database.js'
 
 describe('GET /api/health', () => {
   beforeAll(startTestDatabase)

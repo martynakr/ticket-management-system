@@ -4,7 +4,6 @@
     "lib": ["ES2023"],
     "module": "nodenext",
     "types": ["node", "vitest/globals"],
-    "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true,
 
@@ -18,5 +17,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  // Typechecks the app and the tests. The build (tsconfig.build.json) only compiles src/.
+  "include": ["src", "tests"]
 }

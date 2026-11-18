@@ -8,11 +8,10 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
 
-    // select: false leaves it out of query results unless a query asks for it
-    // with .select('+passwordHash'), so it can't leak into a response by accident.
+    // Hidden from queries unless asked for with .select('+passwordHash').
     passwordHash: { type: String, required: true, select: false },
     role: { type: String, enum: USER_ROLES, required: true, default: 'agent' },
-    // Incremented on logout. Tokens issued with an older version are rejected.
+    // Bumped on logout, which invalidates all older tokens.
     tokenVersion: { type: Number, required: true, default: 0 },
 
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', default: null },
@@ -27,7 +26,6 @@ export const UserModel = model('User', userSchema)
 
 export type UserDocument = HydratedDocument<User>
 
-// The fields that are safe to send to the client.
 export interface PublicUser {
   id: string
   name: string

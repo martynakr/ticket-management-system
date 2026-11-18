@@ -1,20 +1,27 @@
-import type { ErrorRequestHandler } from 'express'
+import type { ErrorRequestHandler, RequestHandler } from 'express'
 import { HttpError } from '../errors/http-error.js'
 
-// Central error handler. Express recognises it by its four arguments and
-// sends every thrown error here, including ones from async handlers.
-// Every error response has the same shape: { error: "message" }, plus
-// `fields` for validation errors.
-// Stack traces are only logged on the server, never sent to the client.
+// Without this, Express answers unknown routes with an HTML page.
+export const notFoundHandler: RequestHandler = (req, _res) => {
+  throw new HttpError(404, `Route not found: ${req.method} ${req.path}`)
+}
+
+// Express only treats this as an error handler because it takes four arguments.
 export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
   if (error instanceof HttpError) {
     res.status(error.status).json({ error: error.message, fields: error.fields })
     return
   }
 
-  // express.json() throws errors with a 4xx `status`, e.g. for malformed JSON.
-  if (typeof error?.status === 'number' && error.status >= 400 && error.status < 500) {
-    res.status(error.status).json({ error: 'Invalid request body' })
+  // The parser's own message leaks details like "Unexpected token n at position 2".
+  if (error?.type === 'entity.parse.failed') {
+    res.status(400).json({ error: 'Malformed JSON in request body' })
+    return
+  }
+
+  // Express middleware errors (e.g. 413) set `expose` when the message is safe to show.
+  if (typeof error?.status === 'number' && error.status < 500 && error.expose) {
+    res.status(error.status).json({ error: error.message })
     return
   }
 

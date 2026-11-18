@@ -38,7 +38,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [x] Write the admin seed script (`seedAdmin()`, run as part of `npm run seed`). It reads the credentials from env and does nothing if that admin already exists.
 
 ### Security middleware
-- [ ] Add `cookie-parser` and the JSON body parser
+- [x] Add `cookie-parser` and the JSON body parser
 - [ ] Add middleware that rejects `POST`/`PUT`/`PATCH`/`DELETE` requests whose `Content-Type` isn't `application/json`
 - [ ] Add middleware that rejects state-changing requests whose `Origin` isn't `CLIENT_ORIGIN`
 - [x] Add a central error handler that returns consistent JSON errors and hides stack traces in production
@@ -46,7 +46,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 ### Auth
 - [x] JWT helpers: sign `{ userId, tokenVersion }` with a 1-day expiry, and verify
 - [x] Cookie helper: `httpOnly`, `sameSite=strict`, `secure` when `NODE_ENV=production`
-- [ ] `requireAuth` middleware: verify the JWT, load the user, compare `tokenVersion`, attach `req.user`
+- [x] `requireAuth` middleware: verify the JWT, load the user, compare `tokenVersion`, attach `req.user`
 - [ ] `requireAdmin` middleware: check `req.user.role === "admin"`
 - [x] `POST /api/auth/login`: validate the input and set the cookie. Return the same error whether the email or the password is wrong.
 - [ ] `POST /api/auth/logout`: increment `tokenVersion` and clear the cookie
@@ -58,7 +58,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 
 ### Tests
 - [x] Login: success, wrong password, unknown email
-- [ ] `requireAuth`: missing token, invalid token, token with an outdated `tokenVersion`
+- [x] `requireAuth`: missing token, invalid token, token with an outdated `tokenVersion`
 - [ ] Logout invalidates the old token
 - [ ] An agent can't reach admin routes
 - [ ] Create agent: success, duplicate email, invalid input

@@ -10,7 +10,6 @@ if (!MONGODB_URI) {
 }
 
 try {
-  // Connect before accepting requests, so the API never runs without a database.
   await connectToDatabase(MONGODB_URI)
 } catch (error) {
   console.error('Could not connect to MongoDB. Is the Docker container running?', error)
@@ -22,8 +21,6 @@ const server = app.listen(PORT, (error) => {
   console.log(`Server running on http://localhost:${PORT}`)
 })
 
-// On Ctrl+C (SIGINT) or a stop signal (SIGTERM), stop taking requests
-// and close the database connection before exiting.
 async function shutdown(signal: string) {
   console.log(`${signal} received, shutting down`)
   server.close()

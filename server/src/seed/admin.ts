@@ -1,9 +1,7 @@
 import { hashPassword } from '../auth/password.js'
 import { UserModel } from '../models/user.js'
 
-// Creates the first admin account from SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD.
-// Safe to run more than once: if that admin already exists, it does nothing.
-// Expects an open database connection (see seed/index.ts).
+// Does nothing if the admin already exists.
 export async function seedAdmin(): Promise<void> {
   const { SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD } = process.env
 
@@ -14,7 +12,7 @@ export async function seedAdmin(): Promise<void> {
     throw new Error('SEED_ADMIN_PASSWORD must be at least 8 characters')
   }
 
-  // Wait for the unique email index to exist before inserting.
+  // Make sure the unique email index exists before inserting.
   await UserModel.init()
 
   const existing = await UserModel.findOne({ email: SEED_ADMIN_EMAIL.toLowerCase().trim() })

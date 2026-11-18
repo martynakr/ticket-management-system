@@ -7,7 +7,6 @@ describe('GET /api/health', () => {
   afterAll(stopTestDatabase)
 
   it('returns 200 and reports the database as connected', async () => {
-    // Supertest sends the request to the app directly; no port is opened.
     const res = await request(app).get('/api/health')
 
     expect(res.status).toBe(200)

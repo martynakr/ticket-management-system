@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 
 export interface TokenPayload {
   userId: string
-  // Compared with the user's current tokenVersion, so logout can revoke old tokens.
   tokenVersion: number
 }
 
@@ -16,8 +15,7 @@ export function signToken(payload: TokenPayload): string {
   return jwt.sign(payload, getSecret(), { algorithm: 'HS256', expiresIn: '1d' })
 }
 
-// Throws if the token is expired, tampered with, or signed with another secret.
 export function verifyToken(token: string): TokenPayload {
-  // Pinning the algorithm stops a token from choosing a weaker one for itself.
+  // Pin the algorithm so a forged token can't pick a weaker one.
   return jwt.verify(token, getSecret(), { algorithms: ['HS256'] }) as TokenPayload
 }

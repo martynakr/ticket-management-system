@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 
-// Cost factor: each +1 doubles the time to hash. 12 takes a fraction of a
-// second, which is fine for logins but slow for anyone guessing passwords.
+// Each +1 doubles the hashing time.
 const SALT_ROUNDS = 12
 
 export function hashPassword(password: string): Promise<string> {

@@ -84,6 +84,6 @@ describe('POST /api/auth/login', () => {
       .send('{ not json')
 
     expect(res.status).toBe(400)
-    expect(res.body).toEqual({ error: 'Invalid request body' })
+    expect(res.body).toEqual({ error: 'Malformed JSON in request body' })
   })
 })

@@ -8,7 +8,8 @@ AI-powered support ticket management system for an online coding school. `README
 - **Tick off tasks** in `IMPLEMENTATION_PLAN.md` (`- [x]`) when they're done and verified.
 - **Keep `README.md` in sync** when a decision changes the spec.
 - **Don't run `git add`, `git commit`, or `git push`.** The user does that. Suggest a commit point in text instead.
-- **The user is learning** (especially Docker). Explain new concepts and why choices were made, briefly.
+- **The user is learning** (especially Docker). Explain new concepts and why choices were made, briefly, in the chat reply, not in code comments.
+- **Keep code comments sparse.** Only comment what the code can't say itself: a non-obvious reason, a security or timing concern, a gotcha. No comments that restate the code, describe a layer's role, or explain basic library usage.
 
 ## Structure
 
@@ -32,7 +33,7 @@ npm run lint                  # Oxlint, in either package
 
 Check a change with `npm test && npm run typecheck && npm run lint` in `server/`, and `npm test && npm run build && npm run lint` in `client/`.
 
-Only test endpoints (through Supertest), not models or helpers directly. Tests use Vitest with `globals: true`, so don't import `describe`/`it`/`expect`. Server tests use Supertest against `app` and an in-memory MongoDB via `src/test/database.ts`, never the Docker database.
+Only test endpoints (through Supertest), not models or helpers directly. Tests use Vitest with `globals: true`, so don't import `describe`/`it`/`expect`. Server tests live in `server/tests/` (not next to the code, since each one exercises a whole endpoint) and use Supertest against `app` and an in-memory MongoDB via `tests/helpers/database.ts`, never the Docker database. Client tests stay next to their components.
 
 ## Server conventions
 

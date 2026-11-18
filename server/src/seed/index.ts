@@ -1,6 +1,3 @@
-// Seeds the database. Run with: npm run seed
-// Opens one connection, runs each seeder in order, then disconnects.
-// Add new seeders (e.g. seedTickets) to the list below.
 import { connectToDatabase, disconnectFromDatabase } from '../db.js'
 import { seedAdmin } from './admin.js'
 

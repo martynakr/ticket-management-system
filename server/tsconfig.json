@@ -17,6 +17,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  // Typechecks the app and the tests. The build (tsconfig.build.json) only compiles src/.
   "include": ["src", "tests"]
 }

@@ -3,17 +3,13 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   test: {
     environment: 'node',
-    // Make describe, it, expect, beforeAll, etc. available without importing them.
     globals: true,
     include: ['tests/**/*.test.ts'],
-    // Starting an in-memory MongoDB takes a moment, and the very first run
-    // downloads the MongoDB binary (~100 MB), so allow setup hooks more time.
+    // The first run downloads the MongoDB binary (~100 MB).
     hookTimeout: 120_000,
-    // Env variables for tests. The real .env isn't loaded here.
+    // .env isn't loaded in tests.
     env: {
       JWT_SECRET: 'test-secret',
     },
   },
 })
-
-

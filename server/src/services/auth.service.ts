@@ -24,6 +24,11 @@ export async function login({
   return { user: toPublicUser(user), token }
 }
 
+// Invalidates every token issued so far, on all devices.
+export async function logout(userId: string): Promise<void> {
+  await userRepository.incrementTokenVersion(userId)
+}
+
 export async function authenticate(token: string | undefined): Promise<UserDocument> {
   if (!token) throw new HttpError(401, 'Not authenticated')
 

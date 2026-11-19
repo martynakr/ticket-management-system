@@ -37,6 +37,6 @@ describe('NavBar', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: 'Log out' }))
 
-    expect(await screen.findByRole('link', { name: 'Sign in' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Sign in' })).toBeInTheDocument()
   })
 })

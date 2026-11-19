@@ -73,7 +73,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [x] Auth context: call `/api/auth/me` on load, expose `user`, `login`, `logout`, and a loading state
 - [x] Set up routing (React Router)
 - [x] Login page: form, validation, error message, redirect after login
-- [ ] `ProtectedRoute`: redirect to the login page if not authenticated
+- [x] `ProtectedRoute`: redirect to the login page if not authenticated
 - [ ] `AdminRoute`: block agents from admin pages
 - [x] App layout: nav bar showing the user's name and role, a logout button, and an admin-only "Users" link
 - [ ] Handle 401 responses everywhere: clear the user and send them back to the login page

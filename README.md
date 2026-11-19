@@ -69,6 +69,7 @@ In the MVP all status changes are manual.
 - The first admin is created by a seed script, using credentials from environment variables.
 - Admins create agents only; creating other admins is out of scope.
 - Because there is no email yet, the admin sets the agent's initial password and shares it with them.
+- The create-agent form can generate a random initial password in the browser. Passwords are never generated or returned by the API.
 
 ### Approach
 
@@ -155,6 +156,7 @@ Indexes: unique index on `email`.
 ## Out of Scope (for now)
 
 - Email integration (receiving and sending support emails)
+- Invite emails for new agents, so they set their own password instead of the admin choosing one
 - Production hosting and deployment
 - Auto-reopen on student reply and auto-close of resolved tickets (depends on email integration)
 - Ticket assignment and routing to specific agents

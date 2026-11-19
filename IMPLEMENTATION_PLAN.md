@@ -78,4 +78,6 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [x] App layout: nav bar showing the user's name and role, a logout button, and an admin-only "Users" link
 - [ ] Handle 401 responses everywhere: clear the user and send them back to the login page
 - [ ] Users page (admin): list of users
-- [ ] Create-agent form (admin): validation, duplicate-email error, list refreshes on success
+- [x] Create-agent form (admin): name, email and password fields, validation, duplicate-email error, success message
+- [x] "Generate password" button on the create-agent form: random password made in the browser with `crypto.getRandomValues`, shown so the admin can copy it
+- [ ] Refresh the users list after creating an agent (needs the users list)

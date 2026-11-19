@@ -44,10 +44,13 @@ Only test endpoints (through Supertest), not models or helpers directly. Tests u
 ## Client conventions
 
 - **Reusable UI** lives in `src/components/ui/` (`Input`, `Button`, `Alert`). Build new forms from these instead of styling raw elements.
+- **Combine class names with `cn()`** from `src/lib/cn.ts` (tailwind-merge), with `className` last so callers can override defaults.
+- **One folder per component and page** (`components/`, `pages/`): `Button/Button.tsx`, its test `Button/Button.test.tsx`, and `Button/index.ts` re-exporting it, so imports stay `components/ui/Button`.
 - **Forms:** React Hook Form + a Zod schema via `zodResolver`, with `noValidate` on the `<form>`. On a 400, call `applyFieldErrors(setError, error.fields)` from `src/lib/form.ts`; show other errors with `setError('root', …)` in an `Alert`.
 - **API calls** go through `api.get/post` in `src/lib/api.ts`, which throws `ApiError` (`status`, `message`, `fields`).
-- **Auth state** comes from `useAuth()` (`src/auth/AuthContext.tsx`).
-- **Tests** that hit the API stub `fetch` with `mockFetch` from `src/test/fetch.ts`.
+- **Server data goes through React Query**, not `useEffect` + `useState`. Wrap each endpoint in a hook (`useQuery` for reads, `useMutation` for writes) that calls `api.*`; mutations update or invalidate the affected queries.
+- **Auth state** comes from `useCurrentUser()`, `useLogin()` and `useLogout()` in `src/auth/hooks.ts`. The current user lives in the query cache under `['auth', 'me']`, so there's no auth context.
+- **Tests** render with `renderApp(path)` from `src/test/render.tsx` (fresh `QueryClient` per test) and stub `fetch` with `mockFetch` from `src/test/fetch.ts`.
 
 ## Gotchas
 

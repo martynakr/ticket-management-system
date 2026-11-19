@@ -45,13 +45,13 @@ describe('LoginPage', () => {
 
     await fillAndSubmit('ada@example.com', 'correct-password')
 
-    expect(await screen.findByText('Signed in as Ada (admin)')).toBeInTheDocument()
+    expect(await screen.findByText('Welcome back, Ada.')).toBeInTheDocument()
   })
 
   it('skips the form when already logged in', async () => {
     mockFetch({ 'GET /api/auth/me': { status: 200, body: { user: admin } } })
     renderApp('/login')
 
-    expect(await screen.findByText('Signed in as Ada (admin)')).toBeInTheDocument()
+    expect(await screen.findByText('Welcome back, Ada.')).toBeInTheDocument()
   })
 })

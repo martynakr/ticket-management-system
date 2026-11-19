@@ -1,29 +1,20 @@
 import { Link } from 'react-router'
-import { useCurrentUser, useLogout } from '../../auth/hooks'
-import { Button } from '../../components/ui/Button'
+import { useCurrentUser } from '../../auth/hooks'
 
-// Placeholder until the app layout and ProtectedRoute exist.
 export function HomePage() {
   const { data: user } = useCurrentUser()
-  const logout = useLogout()
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
-      <h1 className="text-3xl font-bold text-slate-900">Ticket Management System</h1>
+    <div>
+      <h1 className="text-2xl font-semibold text-slate-900">Home</h1>
       {user ? (
-        <>
-          <p className="text-slate-600">
-            Signed in as {user.name} ({user.role})
-          </p>
-          <Button variant="secondary" isLoading={logout.isPending} onClick={() => logout.mutate()}>
-            Log out
-          </Button>
-        </>
+        <p className="mt-1 text-sm text-slate-500">Welcome back, {user.name}.</p>
       ) : (
-        <Link to="/login" className="text-indigo-600 hover:underline">
+        // Placeholder until ProtectedRoute redirects logged-out users to /login.
+        <Link to="/login" className="mt-2 inline-block text-indigo-600 hover:underline">
           Sign in
         </Link>
       )}
-    </main>
+    </div>
   )
 }

@@ -75,7 +75,7 @@ This plan covers the authentication scope described in [README.md](README.md): a
 - [x] Login page: form, validation, error message, redirect after login
 - [ ] `ProtectedRoute`: redirect to the login page if not authenticated
 - [ ] `AdminRoute`: block agents from admin pages
-- [ ] App layout: nav bar showing the user's name and role, a logout button, and an admin-only "Users" link
+- [x] App layout: nav bar showing the user's name and role, a logout button, and an admin-only "Users" link
 - [ ] Handle 401 responses everywhere: clear the user and send them back to the login page
 - [ ] Users page (admin): list of users
 - [ ] Create-agent form (admin): validation, duplicate-email error, list refreshes on success

@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react'
+import { cn } from '../../../lib/cn'
 
 type Variant = 'primary' | 'secondary'
 
@@ -18,7 +19,7 @@ export function Button({
   isLoading = false,
   disabled,
   type = 'button',
-  className = '',
+  className,
   children,
   ...props
 }: ButtonProps) {
@@ -27,7 +28,11 @@ export function Button({
       type={type}
       disabled={disabled || isLoading}
       aria-busy={isLoading || undefined}
-      className={`inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium shadow-sm outline-none transition-colors focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-60 ${variants[variant]} ${className}`}
+      className={cn(
+        'inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium shadow-sm outline-none transition-colors focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-60',
+        variants[variant],
+        className,
+      )}
       {...props}
     >
       {isLoading && (

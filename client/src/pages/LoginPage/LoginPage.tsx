@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Navigate, useNavigate } from 'react-router'
-import { z } from 'zod'
 import { useCurrentUser, useLogin } from '../../auth/hooks'
 import { Logo } from '../../components/Logo'
 import { Alert } from '../../components/ui/Alert'
@@ -9,13 +8,7 @@ import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
 import { ApiError } from '../../lib/api'
 import { applyFieldErrors } from '../../lib/form'
-
-const loginSchema = z.object({
-  email: z.string().trim().min(1, 'Email is required').pipe(z.email('Enter a valid email')),
-  password: z.string().min(1, 'Password is required'),
-})
-
-type LoginForm = z.infer<typeof loginSchema>
+import { loginSchema, type LoginForm } from './loginSchema'
 
 export function LoginPage() {
   const { data: user } = useCurrentUser()

@@ -1,3 +1,5 @@
+import { cn } from '../../lib/cn'
+
 type Size = 'sm' | 'md' | 'lg'
 
 const sizes: Record<Size, { wordmark: string; badge: string }> = {
@@ -11,14 +13,17 @@ interface LogoProps {
   className?: string
 }
 
-export function Logo({ size = 'md', className = '' }: LogoProps) {
+export function Logo({ size = 'md', className }: LogoProps) {
   return (
-    <div className={`flex items-baseline gap-2 font-display select-none ${className}`}>
-      <span className={`font-extrabold tracking-tight text-slate-900 ${sizes[size].wordmark}`}>
+    <div className={cn('flex items-baseline gap-2 font-display select-none', className)}>
+      <span className={cn('font-extrabold tracking-tight text-slate-900', sizes[size].wordmark)}>
         code<span className="text-indigo-600">loom</span>
       </span>
       <span
-        className={`rounded-full bg-indigo-100 font-semibold uppercase tracking-wider text-indigo-700 ${sizes[size].badge}`}
+        className={cn(
+          'rounded-full bg-indigo-100 font-semibold uppercase tracking-wider text-indigo-700',
+          sizes[size].badge,
+        )}
       >
         Support
       </span>

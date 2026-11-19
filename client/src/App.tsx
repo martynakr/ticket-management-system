@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router'
-import { useAuth } from './auth/AuthContext'
+import { useCurrentUser } from './auth/hooks'
 import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 
 function App() {
-  const { isLoading } = useAuth()
+  const { isPending } = useCurrentUser()
 
   // Wait for /api/auth/me, so a logged-in user doesn't see the login page flash.
-  if (isLoading) return null
+  if (isPending) return null
 
   return (
     <Routes>

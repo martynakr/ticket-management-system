@@ -2,12 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Navigate, useNavigate } from 'react-router'
 import { z } from 'zod'
-import { useAuth } from '../auth/AuthContext'
-import { Alert } from '../components/ui/Alert'
-import { Button } from '../components/ui/Button'
-import { Input } from '../components/ui/Input'
-import { ApiError } from '../lib/api'
-import { applyFieldErrors } from '../lib/form'
+import { useCurrentUser, useLogin } from '../../auth/hooks'
+import { Logo } from '../../components/Logo'
+import { Alert } from '../../components/ui/Alert'
+import { Button } from '../../components/ui/Button'
+import { Input } from '../../components/ui/Input'
+import { ApiError } from '../../lib/api'
+import { applyFieldErrors } from '../../lib/form'
 
 const loginSchema = z.object({
   email: z.string().trim().min(1, 'Email is required').pipe(z.email('Enter a valid email')),
@@ -17,7 +18,8 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>
 
 export function LoginPage() {
-  const { user, login } = useAuth()
+  const { data: user } = useCurrentUser()
+  const login = useLogin()
   const navigate = useNavigate()
   const {
     register,
@@ -28,9 +30,9 @@ export function LoginPage() {
 
   if (user) return <Navigate to="/" replace />
 
-  async function onSubmit({ email, password }: LoginForm) {
+  async function onSubmit(values: LoginForm) {
     try {
-      await login(email, password)
+      await login.mutateAsync(values)
       navigate('/', { replace: true })
     } catch (error) {
       if (error instanceof ApiError && error.status === 400 && applyFieldErrors(setError, error.fields)) {
@@ -43,10 +45,11 @@ export function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-slate-50 px-4">
+      <Logo />
       <div className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
         <h1 className="text-2xl font-semibold text-slate-900">Sign in</h1>
-        <p className="mt-1 text-sm text-slate-500">Ticket Management System</p>
+        <p className="mt-1 text-sm text-slate-500">to the support desk</p>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-6 flex flex-col gap-4">
           {errors.root && <Alert>{errors.root.message}</Alert>}

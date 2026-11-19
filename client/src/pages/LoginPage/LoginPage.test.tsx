@@ -1,22 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from 'react-router'
-import App from '../App'
-import { AuthProvider } from '../auth/AuthContext'
-import { mockFetch } from '../test/fetch'
+import { mockFetch } from '../../test/fetch'
+import { renderApp } from '../../test/render'
 
 const notLoggedIn = { 'GET /api/auth/me': { status: 401, body: { error: 'Not authenticated' } } }
 const admin = { id: '1', name: 'Ada', email: 'ada@example.com', role: 'admin' }
-
-function renderAt(path: string) {
-  render(
-    <MemoryRouter initialEntries={[path]}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </MemoryRouter>,
-  )
-}
 
 async function fillAndSubmit(email: string, password: string) {
   const user = userEvent.setup()
@@ -30,7 +18,7 @@ afterEach(() => vi.unstubAllGlobals())
 describe('LoginPage', () => {
   it('shows validation errors without calling the API', async () => {
     const fetchMock = mockFetch(notLoggedIn)
-    renderAt('/login')
+    renderApp('/login')
 
     await userEvent.click(await screen.findByRole('button', { name: 'Sign in' }))
 
@@ -44,7 +32,7 @@ describe('LoginPage', () => {
       ...notLoggedIn,
       'POST /api/auth/login': { status: 401, body: { error: 'Invalid email or password' } },
     })
-    renderAt('/login')
+    renderApp('/login')
 
     await fillAndSubmit('ada@example.com', 'wrong-password')
 
@@ -53,7 +41,7 @@ describe('LoginPage', () => {
 
   it('goes to the home page after logging in', async () => {
     mockFetch({ ...notLoggedIn, 'POST /api/auth/login': { status: 200, body: { user: admin } } })
-    renderAt('/login')
+    renderApp('/login')
 
     await fillAndSubmit('ada@example.com', 'correct-password')
 
@@ -62,7 +50,7 @@ describe('LoginPage', () => {
 
   it('skips the form when already logged in', async () => {
     mockFetch({ 'GET /api/auth/me': { status: 200, body: { user: admin } } })
-    renderAt('/login')
+    renderApp('/login')
 
     expect(await screen.findByText('Signed in as Ada (admin)')).toBeInTheDocument()
   })

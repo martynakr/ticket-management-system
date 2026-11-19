@@ -33,6 +33,7 @@ async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
     throw new ApiError(res.status, body?.error ?? 'Something went wrong', body?.fields)
   }
 
+  
   return body as T
 }
 

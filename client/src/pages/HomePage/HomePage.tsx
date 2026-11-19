@@ -1,10 +1,11 @@
 import { Link } from 'react-router'
-import { useAuth } from '../auth/AuthContext'
-import { Button } from '../components/ui/Button'
+import { useCurrentUser, useLogout } from '../../auth/hooks'
+import { Button } from '../../components/ui/Button'
 
 // Placeholder until the app layout and ProtectedRoute exist.
 export function HomePage() {
-  const { user, logout } = useAuth()
+  const { data: user } = useCurrentUser()
+  const logout = useLogout()
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
@@ -14,7 +15,7 @@ export function HomePage() {
           <p className="text-slate-600">
             Signed in as {user.name} ({user.role})
           </p>
-          <Button variant="secondary" onClick={logout}>
+          <Button variant="secondary" isLoading={logout.isPending} onClick={() => logout.mutate()}>
             Log out
           </Button>
         </>
